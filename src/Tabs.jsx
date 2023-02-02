@@ -1,7 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react'
 import Home from './views/Home';
+import Pokemons from './views/Pokemons';
 
 const Tabs = () => {
 
@@ -13,6 +14,13 @@ const Tabs = () => {
       component: Home,
       options: {
         tabBarIcon: ({ size, color }) => <FontAwesome5 name="home" size={size} color={color} />
+      }
+    },
+    {
+      name: 'pokemons',
+      component: Pokemons,
+      options: {
+        tabBarIcon: ({ size, color }) => <MaterialCommunityIcons name="pokeball" size={size} color={color} />
       }
     },
     // {

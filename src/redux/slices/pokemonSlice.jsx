@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import getPokemons from '../../helpers/getPokemons';
 
 const initialState = {
   list: [],
@@ -15,13 +14,12 @@ export const pokemonSlice = createSlice({
   name: 'pokemons',
   initialState,
   reducers: {
-    getListPokemons: async (state) => {
-      const { data, message, error } = await getPokemons(150);
-      return { ...state, list: data || [], message, error, loaded: data ? true : false }
+    setListPokemons: (state, action) => {
+      return ({ ...state, ...action.payload })
     },
     addPokemonToPokedex: (state, action) => {
       const pokedex = [...state.pokedex, action.payload];
-      return { ...state, pokedex }
+      return ({ ...state, pokedex })
     },
     setPokemonInfo: (state, action) =>
       ({ ...state, pokemonInfo: action.payload, showInfo: true }),
@@ -30,6 +28,6 @@ export const pokemonSlice = createSlice({
   }
 })
 
-export const { getListPokemons, addPokemonToPokedex, setPokemonInfo, hidePokemonInfo } = pokemonSlice.actions
+export const { setListPokemons, addPokemonToPokedex, setPokemonInfo, hidePokemonInfo } = pokemonSlice.actions
 
 export default pokemonSlice.reducer
