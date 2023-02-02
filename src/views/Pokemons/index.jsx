@@ -1,32 +1,34 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setListPokemons } from '../../redux/slices/pokemonSlice'
 import getPokemons from './helpers/getPokemons'
-import { ListItem } from '@react-native-material/core'
+import ListPokemons from './components/ListPokemons'
+import PokemonInfo from './components/PokemonInfo'
 
 const Pokemons = () => {
+  const limitLoads = 60;
   const { list } = useSelector(state => state.pokemons)
   const dispatch = useDispatch()
 
-  const handleGetPokemons = async () => {
-    const { data, error, message } = await getPokemons(150);
-    dispatch(setListPokemons({ list: data.results, error, message }))
+  const handleGetPokemons = async (limit = 50, offset = 0) => {
+    const { data, error, message } = await getPokemons(limit, offset);
+    dispatch(setListPokemons({ list: [...list, ...data.results], error, message }))
   };
 
   useEffect(() => {
-    handleGetPokemons();
+    handleGetPokemons(limitLoads);
   }, [])
-
-  useEffect(() => {
-    console.log(list)
-  }, [list])
-
-  const renderItem = ({ item }) => <ListItem title={item.name} />
 
   return (
     <View>
-      <FlatList data={list} renderItem={renderItem} />
+      {
+        list &&
+        <>
+          <ListPokemons pokemons={list} loadMore={handleGetPokemons} limitLoads={limitLoads} />
+          <PokemonInfo />
+        </>
+      }
     </View>
   )
 }
