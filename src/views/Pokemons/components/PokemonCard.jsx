@@ -2,16 +2,15 @@ import { Motion } from '@legendapp/motion';
 import { Image, Text, View } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import { SimpleLoader } from '../../../components/LottieLoaders';
-// import { PokemonInfoContext } from '../contexts/PokemonInfoContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { addPokemonToPokedex, setPokemonInfo } from '../../../redux/slices/pokemonSlice';
 import React, { useEffect, useState } from 'react'
 import getDataPokemon from '../helpers/getDataPokemon';
 import PokemonTypeColorBackground from '../helpers/PokemonTypeColorBackground';
 import TypeBadge from '../layouts/TypeBadge';
-import { useDispatch, useSelector } from 'react-redux';
-import { addPokemonToPokedex, setPokemonInfo } from '../../../redux/slices/pokemonSlice';
 
 const PokemonCard = ({ data }) => {
-  const { pokedex } = useSelector(state => state.pokemons)
+  const { pokedex, visibleItems } = useSelector(state => state.pokemons)
   const [info, setInfo] = useState(null);
   const dispatch = useDispatch();
   const { name, url } = data;
@@ -37,8 +36,12 @@ const PokemonCard = ({ data }) => {
   }
 
   useEffect(() => {
-    handleGetPokemonInfo()
-  }, [])
+    if (!info) {
+      if (visibleItems.find(item => item.name === name)) {
+        handleGetPokemonInfo()
+      }
+    }
+  }, [visibleItems])
 
   return (
     info
@@ -79,9 +82,9 @@ const styles = ScaledSheet.create({
     height: '90@s',
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: 'rgba(0,0,0,0.3)',
-    borderRadius: '5@s',
-    borderWidth: '0.3@s',
+    borderColor: 'rgba(0,0,0,0.05)',
+    borderRadius: '10@s',
+    borderWidth: '1@s',
     margin: '6@s',
     marginHorizontal: '10@s',
   },

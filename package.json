@@ -23,7 +23,6 @@
     "lottie-react-native": "^5.1.4",
     "react": "18.1.0",
     "react-native": "0.70.5",
-    "react-native-inviewport": "^1.1.0",
     "react-native-progress": "^5.0.0",
     "react-native-sheet": "^0.1.6",
     "react-native-size-matters": "^0.4.0",

@@ -1,12 +1,11 @@
-import { Image, Text, View } from 'react-native';
 import React, { useEffect, useRef } from 'react';
-import { BottomSheet } from 'react-native-sheet';
-// import { PokemonInfoContext } from '../contexts/PokemonInfoContext';
-import { ScaledSheet, scale } from 'react-native-size-matters';
-import PokemonStats from './PokemonStats';
+import { Text, View } from 'react-native';
 import { Motion } from '@legendapp/motion';
-import { useDispatch, useSelector } from 'react-redux';
+import { BottomSheet } from 'react-native-sheet';
 import { hidePokemonInfo } from '../../../redux/slices/pokemonSlice';
+import { ScaledSheet, scale } from 'react-native-size-matters';
+import { useDispatch, useSelector } from 'react-redux';
+import PokemonStats from './PokemonStats';
 
 const PokemonInfo = () => {
   const { pokemonInfo, showInfo } = useSelector(state => state.pokemons);
@@ -18,7 +17,7 @@ const PokemonInfo = () => {
   }, [showInfo])
 
   return (
-    <BottomSheet ref={ref} height={scale(400)} onCloseFinish={() => dispatch(hidePokemonInfo())}>
+    <BottomSheet ref={ref} height={scale(420)} onCloseFinish={() => dispatch(hidePokemonInfo())}>
 
       {
         pokemonInfo &&

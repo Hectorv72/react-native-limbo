@@ -1,7 +1,7 @@
 import { View } from 'react-native'
+import { ScaledSheet } from 'react-native-size-matters'
 import React from 'react'
 import StatBar from '../layouts/StatBar'
-import { ScaledSheet } from 'react-native-size-matters'
 
 const PokemonStats = ({ stats }) => {
   return (
