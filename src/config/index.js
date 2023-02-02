@@ -1,3 +1,3 @@
 export const app = {
-  appName: 'Base system'
+  appName: 'Limbo Test APP'
 }
