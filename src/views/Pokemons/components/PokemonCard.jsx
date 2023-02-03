@@ -4,22 +4,25 @@ import { ScaledSheet } from 'react-native-size-matters';
 import { SimpleLoader } from '../../../components/LottieLoaders';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPokemonToPokedex, setPokemonInfo } from '../../../redux/slices/pokemonSlice';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import getDataPokemon from '../helpers/getDataPokemon';
 import PokemonTypeColorBackground from '../helpers/PokemonTypeColorBackground';
 import TypeBadge from '../layouts/TypeBadge';
 
 const PokemonCard = ({ data }) => {
-  const { pokedex, visibleItems } = useSelector(state => state.pokemons)
+  const { pokedex, visibleItems } = useSelector(state => state.pokemons);
+  const abortController = useRef(null);
   const [info, setInfo] = useState(null);
   const dispatch = useDispatch();
   const { name, url } = data;
 
 
   const handleGetPokemonInfo = async () => {
+    abortController.current = new AbortController();
     let pokemonInfo = pokedex.find(pokemon => pokemon.name === name);
+
     if (!pokemonInfo) {
-      const { error, data } = await getDataPokemon(url);
+      const { error, data } = await getDataPokemon(url, abortController);
 
       if (!error) {
         pokemonInfo = {
@@ -39,6 +42,8 @@ const PokemonCard = ({ data }) => {
     if (!info) {
       if (visibleItems.find(item => item.name === name)) {
         handleGetPokemonInfo()
+      } else {
+        abortController.current && abortController.current.abort();
       }
     }
   }, [visibleItems])
