@@ -5,12 +5,14 @@ import { Provider } from 'react-redux';
 import { app } from './config';
 import Tabs from './Tabs';
 import store from './redux/store';
+import Splash from './views/Splash';
 
 const Router = () => {
 
   const { Navigator, Screen } = createNativeStackNavigator();
 
   const views = [
+    { name: "splash", component: Splash, options: { headerShown: false } },
     { name: "main", component: Tabs, options: { title: app.appName } },
     // { name: "", component: Component, options: {} },
   ]
@@ -18,7 +20,7 @@ const Router = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Navigator initialRouteName='main'>
+        <Navigator initialRouteName='splash'>
           {
             views.map(
               (view, index) =>
